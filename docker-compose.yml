@@ -3,7 +3,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: TalentSphereDB
     environment:
-      - MSSQL_SA_PASSWORD=TalentSphere!2024
+      - MSSQL_SA_PASSWORD=TalentSphere.2024
       - ACCEPT_EULA=Y
     ports:
       - "1433:1433"
