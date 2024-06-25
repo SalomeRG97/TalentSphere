@@ -1,0 +1,6 @@
+@Admin.APO_HostAddress = http://localhost:5143
+
+GET {{Admin.APO_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

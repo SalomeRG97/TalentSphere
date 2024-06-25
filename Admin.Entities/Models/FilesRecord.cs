@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Admin.Entities.Models;
 
-public partial class FileRecord
+public partial class FilesRecord
 {
     public int Id { get; set; }
 

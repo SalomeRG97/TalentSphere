@@ -23,7 +23,7 @@ public partial class TalentSphereAdminContext : DbContext
 
     public virtual DbSet<Ep> Eps { get; set; }
 
-    public virtual DbSet<FileRecord> FileRecords { get; set; }
+    public virtual DbSet<FilesRecord> FilesRecords { get; set; }
 
     public virtual DbSet<FondosPensione> FondosPensiones { get; set; }
 
@@ -159,11 +159,9 @@ public partial class TalentSphereAdminContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<FileRecord>(entity =>
+        modelBuilder.Entity<FilesRecord>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__FileReco__3214EC07069133E0");
-
-            entity.ToTable("FileRecord");
 
             entity.Property(e => e.ContentType)
                 .HasMaxLength(50)
