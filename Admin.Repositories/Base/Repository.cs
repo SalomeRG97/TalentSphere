@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Admin.Entities.Models;
 using Admin.Interfaces;
+using System.Linq.Expressions;
 
 namespace Admin.Repositories
 {
@@ -14,19 +15,26 @@ namespace Admin.Repositories
             _context = context;
             _dbSet = context.Set<T>();
         }
-
-        public void AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
-            _dbSet.Add(entity);
+             _dbSet.Add(entity);
         }
-
-        public void UpdateAsync(T entity)
+        public async Task<int> Add(T entity)
+        {
+            _context.Set<T>().Add(entity);
+            return await _context.SaveChangesAsync();
+        }
+        public async Task<T?> GetOne(Expression<Func<T, bool>> funcion)
+        {
+            return await _context.Set<T>().AsNoTracking().Where(funcion).FirstOrDefaultAsync();
+        }
+        public async Task UpdateAsync(T entity)
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity)
         {
             if (_context.Entry(entity).State == EntityState.Detached)
             {
@@ -35,12 +43,12 @@ namespace Admin.Repositories
             _dbSet.Remove(entity);
         }
 
-        public void SaveChanges()
+        public async Task SaveChanges()
         {
             _context.SaveChanges();
         }
 
-        public IEnumerable<T> GetAllAsync()
+        public async Task<List<T>> GetAllAsync()
         {
             return _dbSet.ToList();
         }
