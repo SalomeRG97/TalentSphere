@@ -7,6 +7,6 @@ namespace Admin.Interfaces
         Task Add(ArlCreateDTO dto);
         Task Delete(ArlDTO dto);
         Task<List<ArlDTO>> GetAll();
-        Task UpdateAsset(ArlDTO dto);
+        Task Update(ArlDTO dto);
     }
 }

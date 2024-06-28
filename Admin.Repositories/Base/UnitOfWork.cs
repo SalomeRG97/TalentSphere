@@ -16,9 +16,9 @@ namespace Admin.Repositories
         public IArlRepository ArlRepository => _arlRepository ??= new ArlRepository(_context);
 
 
-        public void Commit()
+        public async Task Commit()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public IDbContextTransaction BeginTransaction()

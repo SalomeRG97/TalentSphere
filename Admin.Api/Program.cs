@@ -3,10 +3,12 @@ using Admin.Entities.Models;
 using Admin.Interfaces;
 using Admin.Repositories;
 using Admin.Services;
+using Configuraciones.Serilog;
 using Admin.Api;
 
-
 var builder = WebApplication.CreateBuilder(args);
+
+SerilogConfig.ConfigLogSeqAndSqlServer(builder);
 
 // Add services to the container.
 builder.Services.AddDbContext<TalentSphereAdminContext>(options =>

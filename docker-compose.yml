@@ -10,10 +10,24 @@ services:
     volumes:
       - TalentSphere-volume:/var/opt/mssql
 
+  sqlserver_log:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: TalentSphereDB_log
+    environment:
+      - MSSQL_SA_PASSWORD=TalentSphere.2024
+      - ACCEPT_EULA=Y
+    ports:
+      - "1434:1433"
+    volumes:
+      - TalentSphere_log-volume:/var/opt/mssql
+
 networks:
   TalentSphereDB-network:
     driver: bridge
 
 volumes:
   TalentSphere-volume:
+    external: true
+
+  TalentSphere_log-volume:
     external: true

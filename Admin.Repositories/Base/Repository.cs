@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 namespace Admin.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
+        //public class Repository<T> : IRepository<T> where T : class
     {
         private readonly TalentSphereAdminContext _context;
         private readonly DbSet<T> _dbSet;
@@ -15,26 +16,67 @@ namespace Admin.Repositories
             _context = context;
             _dbSet = context.Set<T>();
         }
-        public async Task AddAsync(T entity)
+
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
+                               Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                               string includeString = null,
+                               bool disableTracking = true)
         {
-             _dbSet.Add(entity);
+            IQueryable<T> query = _context.Set<T>();
+            if (disableTracking) query = query.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(includeString)) query = query.Include(includeString);
+
+            if (predicate != null) query = query.Where(predicate);
+
+            if (orderBy != null)
+                return await orderBy(query).ToListAsync();
+
+
+            return await query.ToListAsync();
         }
-        public async Task<int> Add(T entity)
+
+
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate = null,
+                                  Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                  List<Expression<Func<T, object>>> includes = null,
+                                  bool disableTracking = true)
         {
-            _context.Set<T>().Add(entity);
-            return await _context.SaveChangesAsync();
+            IQueryable<T> query = _context.Set<T>();
+            if (disableTracking) query = query.AsNoTracking();
+
+            if (includes != null) query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            if (predicate != null) query = query.Where(predicate);
+
+            if (orderBy != null)
+                return await orderBy(query).FirstOrDefaultAsync();
+
+            return await query.FirstOrDefaultAsync();
+
+        }
+
+        public void AddAsync(T entity)
+        {
+            _dbSet.Add(entity);
         }
         public async Task<T?> GetOne(Expression<Func<T, bool>> funcion)
         {
             return await _context.Set<T>().AsNoTracking().Where(funcion).FirstOrDefaultAsync();
         }
-        public async Task UpdateAsync(T entity)
+        public async Task AddRange(List<T> entity)
+        {
+            await _context.Set<T>().AddRangeAsync(entity);
+        }
+
+        public void UpdateAsync(T entity)
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task DeleteAsync(T entity)
+        public void DeleteAsync(T entity)
         {
             if (_context.Entry(entity).State == EntityState.Detached)
             {
@@ -43,14 +85,9 @@ namespace Admin.Repositories
             _dbSet.Remove(entity);
         }
 
-        public async Task SaveChanges()
+        public void SaveChangesAsync()
         {
-            _context.SaveChanges();
-        }
-
-        public async Task<List<T>> GetAllAsync()
-        {
-            return _dbSet.ToList();
+            _context.SaveChangesAsync();
         }
     }
 }

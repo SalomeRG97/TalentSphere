@@ -8,7 +8,7 @@ namespace Admin.Interfaces
         IArlRepository ArlRepository { get; }
 
         IDbContextTransaction BeginTransaction();
-        void Commit();
+        Task Commit();
         void Dispose();
     }
 }

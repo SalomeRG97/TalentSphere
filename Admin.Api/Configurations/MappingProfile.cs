@@ -8,8 +8,8 @@ namespace Admin.Api
     {
         public MappingProfile() 
         {
-            CreateMap<Arl, ArlDTO>();
-            CreateMap<Arl, ArlCreateDTO>();
+            CreateMap<Arl, ArlDTO>().ReverseMap();
+            CreateMap<Arl, ArlCreateDTO>().ReverseMap();
         }
     }
 }

@@ -29,30 +29,30 @@ namespace Admin.Services
                 return;
             }
             var entity = _mapper.Map<Arl>(dto);
-            await _unitOfWork.ArlRepository.AddAsync(entity);
-            _unitOfWork.Commit();
+            _unitOfWork.ArlRepository.AddAsync(entity);
+            await _unitOfWork.Commit();
         }
-        public async Task UpdateAsset(ArlDTO dto)
+        public async Task Update(ArlDTO dto)
         {
             var data = await _unitOfWork.ArlRepository.GetOne(x => x.Id == dto.Id);
-            if (data != null)
+            if (data == null)
             {
                 return;
             }
-            var entity = _mapper.Map<Arl>(dto);
-            await _unitOfWork.ArlRepository.UpdateAsync(entity);
-            _unitOfWork.Commit();
+            var entity = _mapper.Map(dto, data);
+            _unitOfWork.ArlRepository.UpdateAsync(entity);
+            await _unitOfWork.Commit();
         }
         public async Task Delete(ArlDTO dto)
         {
             var data = await _unitOfWork.ArlRepository.GetOne(x => x.Id == dto.Id);
-            if (data != null)
+            if (data == null)
             {
                 return;
             }
             var entity = _mapper.Map<Arl>(dto);
-            await _unitOfWork.ArlRepository.DeleteAsync(entity);
-            _unitOfWork.Commit();
+            _unitOfWork.ArlRepository.DeleteAsync(entity);
+            await _unitOfWork.Commit();
         }
     }
 }
