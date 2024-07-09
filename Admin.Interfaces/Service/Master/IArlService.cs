@@ -1,6 +1,6 @@
 ﻿using Admin.DTO;
 
-namespace Admin.Interfaces
+namespace Admin.Interfaces.Service.Master
 {
     public interface IArlService
     {

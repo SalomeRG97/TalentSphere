@@ -27,11 +27,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Admin.DTO\Admin.DTO.csproj" />
-    <ProjectReference Include="..\Admin.Entities\Admin.Entities.csproj" />
     <ProjectReference Include="..\Admin.Interfaces\Admin.Interfaces.csproj" />
-    <ProjectReference Include="..\Admin.Repositories\Admin.Repositories.csproj" />
-    <ProjectReference Include="..\Admin.Services\Admin.Services.csproj" />
     <ProjectReference Include="..\Configurations\Configuraciones.csproj" />
+    <ProjectReference Include="..\IoC\IoC.csproj" />
   </ItemGroup>
 
 </Project>

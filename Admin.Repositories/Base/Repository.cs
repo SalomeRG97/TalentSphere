@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Admin.Entities.Models;
-using Admin.Interfaces;
+using Admin.Interfaces.Base;
 using System.Linq.Expressions;
 
-namespace Admin.Repositories
+namespace Admin.Repositories.Base
 {
     public class Repository<T> : IRepository<T> where T : class
         //public class Repository<T> : IRepository<T> where T : class

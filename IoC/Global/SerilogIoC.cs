@@ -4,9 +4,9 @@ using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using Serilog.Sinks.Seq;
 
-namespace Configuraciones.Serilog
+namespace IoC.Global
 {
-    public class SerilogConfig
+    public class SerilogIoC
     {
         [Obsolete]
         public static void SQLServerLogs(WebApplicationBuilder builder)

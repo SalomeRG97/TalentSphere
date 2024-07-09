@@ -1,4 +1,4 @@
-﻿using Admin.Interfaces;
+﻿using Admin.Interfaces.Service.Master;
 using Admin.DTO;
 using Microsoft.AspNetCore.Mvc;
 

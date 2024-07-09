@@ -2,11 +2,11 @@
 using Admin.DTO;
 using Admin.Entities.Models;
 
-namespace Admin.Api
+namespace Configuraciones.Automapper
 {
-    public class MappingProfile : Profile
+    public class Admin_MappingProfile : Profile
     {
-        public MappingProfile() 
+        public Admin_MappingProfile()
         {
             CreateMap<Arl, ArlDTO>().ReverseMap();
             CreateMap<Arl, ArlCreateDTO>().ReverseMap();

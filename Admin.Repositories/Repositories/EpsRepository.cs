@@ -1,7 +1,8 @@
 ﻿using Admin.Entities.Models;
-using Admin.Interfaces;
+using Admin.Repositories.Base;
+using Admin.Interfaces.Repositories;
 
-namespace Admin.Repositories
+namespace Admin.Repositories.Repositories
 {
     public class EpsRepository : Repository<Ep>, IEpsRepository
     {

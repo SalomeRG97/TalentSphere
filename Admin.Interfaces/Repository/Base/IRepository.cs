@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Admin.Interfaces
+namespace Admin.Interfaces.Base
 {
     public interface IRepository<T> where T : class
     {

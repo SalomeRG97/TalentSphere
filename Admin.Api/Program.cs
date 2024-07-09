@@ -1,40 +1,23 @@
-using Microsoft.EntityFrameworkCore;
-using Admin.Entities.Models;
-using Admin.Interfaces;
-using Admin.Repositories;
-using Admin.Services;
-using Configuraciones.Serilog;
-using Admin.Api;
+using IoC.Global;
+using IoC.Admin;
 
 var builder = WebApplication.CreateBuilder(args);
-
-SerilogConfig.ConfigLogSeqAndSqlServer(builder);
-
-// Add services to the container.
-builder.Services.AddDbContext<TalentSphereAdminContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-//Service
-builder.Services.AddScoped<IArlService, ArlService>();
-
-//Repository
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IArlRepository, ArlRepository>();
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+SerilogIoC.ConfigureSeqService(builder);
+Admin_AutomapperIoC.ConfigureService(builder);
+Admin_DatabaseIoC.ConfigureSqlServerService(builder);
+Admin_BussinessLogicIoC.RepositoryService(builder);
+Admin_BussinessLogicIoC.ReglasNegocioService(builder);
+
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -42,9 +25,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
