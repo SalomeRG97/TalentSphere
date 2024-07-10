@@ -16,10 +16,23 @@ namespace IoC.Admin
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IArlRepository, ArlRepository>();
+            builder.Services.AddScoped<ICargoRepository, CargoRepository>();
+            builder.Services.AddScoped<ICecoRepository, CecoRepository>();
+            builder.Services.AddScoped<IEpsRepository, EpsRepository>();
+            builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
+            builder.Services.AddScoped<IFondoPensionRepository, FondoPensionRepository > ();
+            builder.Services.AddScoped<ITipoContratoRepository, TipoContratoRepository>();
         }
         public static void ReglasNegocioService(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IArlService, ArlService>();
+            builder.Services.AddScoped<ICargoService, CargoService>();
+            builder.Services.AddScoped<ICecoService, CecoService>();
+            builder.Services.AddScoped<IEpsService, EpsService>();
+            builder.Services.AddScoped<IFondoPensionService, FondoPensionService>();
+            builder.Services.AddScoped<IServicioService, ServicioService>();
+            builder.Services.AddScoped<ITipoContratoService, TipoContratoService>();
+
         }
     }
 }
