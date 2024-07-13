@@ -24,6 +24,8 @@ namespace Configuraciones.Automapper
             CreateMap<Servicio, ServicioDTO>().ReverseMap();
             CreateMap<TiposContrato, TipoContratoCreateDTO>().ReverseMap();
             CreateMap<TiposContrato, TipoContratoDTO>().ReverseMap();
+            CreateMap<FilesRecord, FilesRecordCreateDTO>().ReverseMap();
+            CreateMap<FilesRecord, FilesRecordDTO>().ReverseMap();
         }
     }
 }

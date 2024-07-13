@@ -10,6 +10,7 @@ Admin_AutomapperIoC.ConfigureService(builder);
 Admin_DatabaseIoC.ConfigureSqlServerService(builder);
 Admin_BussinessLogicIoC.RepositoryService(builder);
 Admin_BussinessLogicIoC.ReglasNegocioService(builder);
+Admin_BussinessLogicIoC.UtilidadesService(builder);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
