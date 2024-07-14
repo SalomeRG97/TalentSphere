@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Admin.DTO;
 using Admin.Entities.Models;
+using Admin.DTO.Maestros;
 
 namespace Configuraciones.Automapper
 {
@@ -26,6 +27,10 @@ namespace Configuraciones.Automapper
             CreateMap<TiposContrato, TipoContratoDTO>().ReverseMap();
             CreateMap<FilesRecord, FilesRecordCreateDTO>().ReverseMap();
             CreateMap<FilesRecord, FilesRecordDTO>().ReverseMap();
+            CreateMap<Empleado, EmpleadoDTO>().ReverseMap();
+            CreateMap<Empleado, CreateEmpleadoDTO>().ReverseMap();
+            CreateMap<ContratosLaborale, CreateContratoLaboralDTO>().ReverseMap();
+            //CreateMap<ContratosLaborale, FilesRecordDTO>().ReverseMap();
         }
     }
 }

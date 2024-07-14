@@ -7,8 +7,9 @@ builder.Services.AddControllers();
 
 SerilogIoC.ConfigureSeqService(builder);
 Admin_AutomapperIoC.ConfigureService(builder);
-Admin_DatabaseIoC.ConfigureSqlServerService(builder);
+Admin_DatabaseIoC.ConfigureMySQLService(builder);
 Admin_BussinessLogicIoC.RepositoryService(builder);
+
 Admin_BussinessLogicIoC.ReglasNegocioService(builder);
 Admin_BussinessLogicIoC.UtilidadesService(builder);
 

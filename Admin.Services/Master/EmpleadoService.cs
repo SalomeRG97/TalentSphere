@@ -3,6 +3,10 @@ using Admin.DTO;
 using Admin.Interfaces.Base;
 using Admin.Interfaces.Service.Master;
 using Admin.Entities.Models;
+using Admin.DTO.Maestros;
+using System;
+using Mysqlx;
+using System.Diagnostics;
 
 namespace Admin.Services.Master
 {
@@ -21,16 +25,38 @@ namespace Admin.Services.Master
             var data = await _unitOfWork.EmpleadoRepository.GetAllAsync();
             return _mapper.Map<List<EmpleadoDTO>>(data);
         }
-        public async Task Add(EmpleadoCreateDTO dto)
+        public async Task Add(RequestCreateEmpleado request)
         {
-            var data = await _unitOfWork.EmpleadoRepository.GetOne(x => x.NumeroDocumento == dto.NumeroDocumento);
-            if (data != null)
+            using (var transaction = _unitOfWork.BeginTransaction())
             {
-                return;
+                try
+                {
+                    var data = await _unitOfWork.EmpleadoRepository.GetOne(x => x.NumeroDocumento == request.Empleado.NumeroDocumento);
+                    if (data != null)
+                    {
+                        return;
+                    }
+                    var empleado = _mapper.Map<Empleado>(request.Empleado);
+                    empleado.Guid = Guid.NewGuid().ToString();
+                    empleado.Created = DateTime.Now;
+                    empleado.ModifiedBy = "Salome Ruiz Gallego";
+                    empleado.ModifiedDate = DateTime.Now;
+                    empleado.Status = true;
+                    await _unitOfWork.EmpleadoRepository.AddAsync(empleado);
+                    await _unitOfWork.Commit();
+
+                    var contrato = _mapper.Map<ContratosLaborale>(request.Contrato);
+                    contrato.EmpleadoId = empleado.Id;
+                    await _unitOfWork.ContratoLaboralRepository.AddAsync(contrato);
+                    await _unitOfWork.Commit();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
             }
-            var entity = _mapper.Map<Empleado>(dto);
-            _unitOfWork.EmpleadoRepository.AddAsync(entity);
-            await _unitOfWork.Commit();
         }
         public async Task Update(EmpleadoDTO dto)
         {

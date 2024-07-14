@@ -24,6 +24,8 @@ namespace IoC.Admin
             builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
             builder.Services.AddScoped<IFondoPensionRepository, FondoPensionRepository > ();
             builder.Services.AddScoped<ITipoContratoRepository, TipoContratoRepository>();
+            builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
+            builder.Services.AddScoped<IContratoLaboralRepository, ContratoLaboralRepository>();
             builder.Services.AddScoped<IFilesRecordRepository, FilesRecordRepository>();
         }
         public static void ReglasNegocioService(WebApplicationBuilder builder)
@@ -36,7 +38,7 @@ namespace IoC.Admin
             builder.Services.AddScoped<IServicioService, ServicioService>();
             builder.Services.AddScoped<ITipoContratoService, TipoContratoService>();
             builder.Services.AddScoped<IFilesRecordService, FilesRecordService>();
-
+            builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
         }
         public static void UtilidadesService(WebApplicationBuilder builder)
         {

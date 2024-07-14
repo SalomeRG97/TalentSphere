@@ -13,6 +13,7 @@ namespace Admin.Interfaces.Base
         IFondoPensionRepository FondoPensionRepository { get; }
         IServicioRepository ServicioRepository { get; }
         ITipoContratoRepository TipoContratoRepository { get; }
+        IContratoLaboralRepository ContratoLaboralRepository { get; }
         IFilesRecordRepository FilesRecordRepository { get; }
         IDbContextTransaction BeginTransaction();
         Task Commit();

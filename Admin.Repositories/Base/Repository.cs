@@ -57,7 +57,7 @@ namespace Admin.Repositories.Base
 
         }
 
-        public void AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
             _dbSet.Add(entity);
         }
