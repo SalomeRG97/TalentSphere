@@ -8,12 +8,13 @@ namespace IoC.Admin
 {
     public class Admin_DatabaseIoC
     {
-        public static void ConfigureSqlServerService(WebApplicationBuilder builder)
+        public static void ConfigureMySQLService(WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<TalentSphereAdminContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+            builder.Services.AddDbContext<TalentSphereAdminContext>(
+                (DbContextOptionsBuilder options) =>
+                {
+                    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
+                });
         }
     }
 }

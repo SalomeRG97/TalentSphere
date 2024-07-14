@@ -7,9 +7,11 @@ builder.Services.AddControllers();
 
 SerilogIoC.ConfigureSeqService(builder);
 Admin_AutomapperIoC.ConfigureService(builder);
-Admin_DatabaseIoC.ConfigureSqlServerService(builder);
+Admin_DatabaseIoC.ConfigureMySQLService(builder);
 Admin_BussinessLogicIoC.RepositoryService(builder);
+
 Admin_BussinessLogicIoC.ReglasNegocioService(builder);
+Admin_BussinessLogicIoC.UtilidadesService(builder);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

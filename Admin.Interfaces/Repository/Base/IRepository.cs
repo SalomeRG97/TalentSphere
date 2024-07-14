@@ -4,7 +4,7 @@ namespace Admin.Interfaces.Base
 {
     public interface IRepository<T> where T : class
     {
-        void AddAsync(T entity);
+        Task AddAsync(T entity);
         Task AddRange(List<T> entity);
         void DeleteAsync(T entity);
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeString = null, bool disableTracking = true);

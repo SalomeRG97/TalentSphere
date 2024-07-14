@@ -1,6 +1,6 @@
 ﻿namespace Admin.DTO
 {
-    public class EmpleadoCreateDTO
+    public class CreateEmpleadoDTO
     {
         public int TipoDocumento { get; set; }
 
@@ -21,15 +21,5 @@
         public long ContactoEmergencia { get; set; }
 
         public long TelefonoContactoEmergencia { get; set; }
-
-        public string Guid { get; set; }
-
-        public DateTime Created { get; set; }
-
-        public string ModifiedBy { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public bool Status { get; set; }
     }
 }
