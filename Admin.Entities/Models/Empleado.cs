@@ -9,17 +9,17 @@ public partial class Empleado
 
     public int TipoDocumento { get; set; }
 
-    public string NumeroDocumento { get; set; } = null!;
+    public string NumeroDocumento { get; set; }
 
-    public string Nombres { get; set; } = null!;
+    public string Nombres { get; set; }
 
-    public string Apellidos { get; set; } = null!;
+    public string Apellidos { get; set; }
 
-    public string CorreoPersonal { get; set; } = null!;
+    public string CorreoPersonal { get; set; }
 
-    public string CorreoEmpresarial { get; set; } = null!;
+    public string CorreoEmpresarial { get; set; }
 
-    public string Direccion { get; set; } = null!;
+    public string Direccion { get; set; }
 
     public long Telefono { get; set; }
 
@@ -27,11 +27,11 @@ public partial class Empleado
 
     public long TelefonoContactoEmergencia { get; set; }
 
-    public string Guid { get; set; } = null!;
+    public string Guid { get; set; }
 
     public DateTime Created { get; set; }
 
-    public string ModifiedBy { get; set; } = null!;
+    public string ModifiedBy { get; set; }
 
     public DateTime ModifiedDate { get; set; }
 

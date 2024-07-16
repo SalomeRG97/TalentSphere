@@ -10,12 +10,10 @@ namespace Admin.Api.Controllers
     public class FilesRecordController : ControllerBase
     {
         private readonly IFilesRecordService _filesRecordService;
-        private readonly IManejadorArchivosLocal _manejadorArchivosLocal;
 
-        public FilesRecordController(IManejadorArchivosLocal manejadorArchivosLocal, IFilesRecordService filesRecordService)
+        public FilesRecordController(IFilesRecordService filesRecordService)
         {
             _filesRecordService = filesRecordService;
-            _manejadorArchivosLocal = manejadorArchivosLocal;
         }
         //[HttpGet("GetAll")]
         //public async Task<IActionResult> Get()
@@ -23,21 +21,10 @@ namespace Admin.Api.Controllers
         //    var dto = await _filesRecordService.GetAll();
         //    return Ok(new { Result = dto });
         //}
-        [HttpPost("Upload/{id}")]
-        public async Task<IActionResult> Add(IFormFile file, int id)
+        [HttpPost("Upload")]
+        public async Task<IActionResult> Upload(string IdentificadorEmpleado, int ContentType, IFormFile file)
         {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("No se ha proporcionado un archivo válido.");
-            }
-
-            using var ms = new MemoryStream();
-            await file.CopyToAsync(ms);
-            var content = ms.ToArray();
-
-            var dto = await _manejadorArchivosLocal.GuardarArchivo(content, file.FileName, file.ContentType, "documentos");
-
-            //await _filesRecordService.UploadFileEmpleado(int, dto);
+            await _filesRecordService.UploadFileEmpleado(IdentificadorEmpleado, ContentType, file);
             return Ok();
         }
         //[HttpPut("Update")]

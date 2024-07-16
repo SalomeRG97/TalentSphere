@@ -25,8 +25,8 @@ namespace Configuraciones.Automapper
             CreateMap<Servicio, ServicioDTO>().ReverseMap();
             CreateMap<TiposContrato, TipoContratoCreateDTO>().ReverseMap();
             CreateMap<TiposContrato, TipoContratoDTO>().ReverseMap();
-            CreateMap<FilesRecord, FilesRecordCreateDTO>().ReverseMap();
-            CreateMap<FilesRecord, FilesRecordDTO>().ReverseMap();
+            CreateMap<FileRecord, FilesRecordCreateDTO>().ReverseMap();
+            CreateMap<FileRecord, FilesRecordDTO>().ReverseMap();
             CreateMap<Empleado, EmpleadoDTO>().ReverseMap();
             CreateMap<Empleado, CreateEmpleadoDTO>().ReverseMap();
             CreateMap<ContratosLaborale, CreateContratoLaboralDTO>().ReverseMap();
