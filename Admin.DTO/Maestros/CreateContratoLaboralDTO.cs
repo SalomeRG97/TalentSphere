@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
 
+        public int EmpleadoId { get; set; }
+
         public int ServicioId { get; set; }
 
         public int CargoId { get; set; }
@@ -19,5 +21,11 @@
         public int TipoContratoId { get; set; }
 
         public DateTime FechaIngreso { get; set; }
+
+        public DateTime? FechaSalida { get; set; }
+
+        public string? HojaVidaRef { get; set; }
+
+        public string? SoportesRef { get; set; }
     }
 }

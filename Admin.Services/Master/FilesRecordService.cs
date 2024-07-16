@@ -22,7 +22,7 @@ public class FilesRecordService : IFilesRecordService
         var data = await _unitOfWork.FilesRecordRepository.GetAllAsync();
         return _mapper.Map<List<FilesRecordDTO>>(data);
     }
-    public async Task Add(FilesRecordCreateDTO dto)
+    public async Task UploadFileEmpleado(int id, FilesRecordCreateDTO dto)
     {
         var data = await _unitOfWork.FilesRecordRepository.GetOne(x => x.Nombre == dto.Nombre);
         if (data != null)

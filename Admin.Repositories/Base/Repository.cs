@@ -70,7 +70,7 @@ namespace Admin.Repositories.Base
             await _context.Set<T>().AddRangeAsync(entity);
         }
 
-        public void UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;

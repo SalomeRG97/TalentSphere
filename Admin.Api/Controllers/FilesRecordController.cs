@@ -23,8 +23,8 @@ namespace Admin.Api.Controllers
         //    var dto = await _filesRecordService.GetAll();
         //    return Ok(new { Result = dto });
         //}
-        [HttpPost("Upload")]
-        public async Task<IActionResult> Add(IFormFile file)
+        [HttpPost("Upload/{id}")]
+        public async Task<IActionResult> Add(IFormFile file, int id)
         {
             if (file == null || file.Length == 0)
             {
@@ -37,7 +37,7 @@ namespace Admin.Api.Controllers
 
             var dto = await _manejadorArchivosLocal.GuardarArchivo(content, file.FileName, file.ContentType, "documentos");
 
-            await _filesRecordService.Add(dto);
+            //await _filesRecordService.UploadFileEmpleado(int, dto);
             return Ok();
         }
         //[HttpPut("Update")]
