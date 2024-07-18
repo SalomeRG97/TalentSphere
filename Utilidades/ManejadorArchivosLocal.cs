@@ -13,7 +13,6 @@ namespace Utilidades
         {
             _carpetaBase = environment.WebRootPath;
         }
-
         public async Task<FilesRecordDTO> GuardarArchivo(string nombreArchivo, string bucket, string IdentificadorEmpleado, int ContentType)
         {
             var carpetaDestino = Path.Combine(_carpetaBase, bucket);

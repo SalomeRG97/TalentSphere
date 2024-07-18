@@ -1,10 +1,10 @@
 ﻿using Admin.DTO;
 using Admin.DTO.Utilities;
-using Admin.Interfaces.Utilities;
+using Admin.Interfaces.ServiceCall;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Utilidades
+namespace ServiceCall
 {
     public class HttpBase : IHttpBase
     {

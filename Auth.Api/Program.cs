@@ -1,22 +1,19 @@
-using IoC.Global;
 using IoC.Admin;
+using IoC.Auth;
+using IoC.Global;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddControllers();
-
-
 SerilogIoC.ConfigureSeqService(builder);
-Admin_AutomapperIoC.ConfigureService(builder);
-Admin_DatabaseIoC.ConfigureMySQLService(builder);
-Admin_BussinessLogicIoC.RepositoryService(builder);
-
-Admin_BussinessLogicIoC.ReglasNegocioService(builder);
-Admin_BussinessLogicIoC.UtilidadesService(builder);
+Auth_AutomapperIoC.ConfigureService(builder);
+Auth_DatabaseIoC.ConfigureMySQLService(builder);
+Auth_BussinessLogicIoC.RepositoryService(builder);
+Auth_BussinessLogicIoC.ReglasNegocioService(builder);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

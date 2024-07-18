@@ -9,6 +9,9 @@ using Mysqlx;
 using System.Diagnostics;
 using Org.BouncyCastle.Asn1.Ocsp;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using ZstdSharp;
+using Admin.DTO.ServiceCall;
+using Admin.Interfaces.Utilities.ApiAuth;
 
 namespace Admin.Services.Master
 {
@@ -16,11 +19,13 @@ namespace Admin.Services.Master
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IApiAuthService _apiAuthService;
 
-        public EmpleadoService(IMapper mapper, IUnitOfWork unitOfWork)
+        public EmpleadoService(IMapper mapper, IUnitOfWork unitOfWork, IApiAuthService apiAuthService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _apiAuthService = apiAuthService;
         }
         public async Task<List<RequestCreateEmpleado>> GetAll()
         {
@@ -73,7 +78,13 @@ namespace Admin.Services.Master
                     await _unitOfWork.ContratoLaboralRepository.AddAsync(contrato);
                     await _unitOfWork.Commit();
 
-                    //ActivarEmpleado(request);
+                    var darAltaEmpleado = new RequestActivarEmpleado
+                    {
+                        CorreoEmpresarial = empleado.CorreoEmpresarial,
+                        CargoId = contrato.CargoId,
+                        NumeroDocumento = empleado.NumeroDocumento
+                    };
+                    await _apiAuthService.ActivarEmpleado(darAltaEmpleado);
 
                     transaction.Commit();
                 }
@@ -108,10 +119,15 @@ namespace Admin.Services.Master
                     var contrato = _mapper.Map(request.Contrato, dataC);
                     await _unitOfWork.ContratoLaboralRepository.UpdateAsync(contrato);
                     await _unitOfWork.Commit();
-                    //if (empleado.Status == false)
-                    //{
-                    //    DarBajaEmpleado(request);
-                    //}
+                    if (empleado.Status == false)
+                    {
+                        var darBajaEmpleado = new RequestDesactivarEmpleado
+                        {
+                            NumeroDocumento = empleado.NumeroDocumento,
+                            FechaDesactivacion = DateTime.Now
+                        };
+                        await _apiAuthService.DarBajaEmpleado(darBajaEmpleado);
+                    }
 
                     transaction.Commit();
                 }

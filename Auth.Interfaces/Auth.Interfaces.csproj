@@ -3,16 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Admin.DTO\Admin.DTO.csproj" />
-    <ProjectReference Include="..\Admin.Entities\Admin.Entities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ServiceCall\" />
+    <ProjectReference Include="..\Auth.DTO\Auth.DTO.csproj" />
+    <ProjectReference Include="..\Auth.Entities\Auth.Entities.csproj" />
   </ItemGroup>
 
 </Project>
