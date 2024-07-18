@@ -23,7 +23,7 @@ public partial class TalentSphereAdminContext : DbContext
 
     public virtual DbSet<Ep> Eps { get; set; }
 
-    public virtual DbSet<FilesRecord> FilesRecords { get; set; }
+    public virtual DbSet<FileRecord> FileRecords { get; set; }
 
     public virtual DbSet<FondosPensione> FondosPensiones { get; set; }
 
@@ -35,50 +35,73 @@ public partial class TalentSphereAdminContext : DbContext
     {
         modelBuilder.Entity<Arl>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ARL__3214EC07A9AE492D");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("ARL");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
         });
 
         modelBuilder.Entity<Cargo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cargos__3214EC07D950C55C");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
         });
 
         modelBuilder.Entity<Ceco>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__CECO__3214EC0762C14C77");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("CECO");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
         });
 
         modelBuilder.Entity<ContratosLaborale>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Contrato__3214EC07CB6F3CEF");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.Property(e => e.Arlid).HasColumnName("ARLId");
-            entity.Property(e => e.Epsid).HasColumnName("EPSId");
+            entity.HasIndex(e => e.Arlid, "ARLId");
+
+            entity.HasIndex(e => e.CargoId, "CargoId");
+
+            entity.HasIndex(e => e.Epsid, "EPSId");
+
+            entity.HasIndex(e => e.EmpleadoId, "EmpleadoId");
+
+            entity.HasIndex(e => e.FondoPensionId, "FondoPensionId");
+
+            entity.HasIndex(e => e.ServicioId, "ServicioId");
+
+            entity.HasIndex(e => e.TipoContratoId, "TipoContratoId");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.Arlid)
+                .HasColumnType("int(11)")
+                .HasColumnName("ARLId");
+            entity.Property(e => e.CargoId).HasColumnType("int(11)");
+            entity.Property(e => e.EmpleadoId).HasColumnType("int(11)");
+            entity.Property(e => e.Epsid)
+                .HasColumnType("int(11)")
+                .HasColumnName("EPSId");
             entity.Property(e => e.FechaIngreso).HasColumnType("datetime");
             entity.Property(e => e.FechaSalida).HasColumnType("datetime");
-            entity.Property(e => e.HojaVidaRef)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Salario).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SoportesRef)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+            entity.Property(e => e.FondoPensionId).HasColumnType("int(11)");
+            entity.Property(e => e.HojaVidaRef).HasMaxLength(255);
+            entity.Property(e => e.Salario).HasPrecision(10);
+            entity.Property(e => e.ServicioId).HasColumnType("int(11)");
+            entity.Property(e => e.SoportesRef).HasMaxLength(255);
+            entity.Property(e => e.TipoContratoId).HasColumnType("int(11)");
 
             entity.HasOne(d => d.Arl).WithMany(p => p.ContratosLaborales)
                 .HasForeignKey(d => d.Arlid)
@@ -118,82 +141,99 @@ public partial class TalentSphereAdminContext : DbContext
 
         modelBuilder.Entity<Empleado>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Empleado__3214EC078AD2E59B");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Apellidos)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.ContactoEmergencia).HasColumnType("bigint(20)");
             entity.Property(e => e.CorreoEmpresarial)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.CorreoPersonal)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.Created).HasColumnType("datetime");
             entity.Property(e => e.Direccion)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.Guid)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.ModifiedBy)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.Nombres)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.NumeroDocumento)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.Telefono).HasColumnType("bigint(20)");
+            entity.Property(e => e.TelefonoContactoEmergencia).HasColumnType("bigint(20)");
+            entity.Property(e => e.TipoDocumento).HasColumnType("int(11)");
         });
 
         modelBuilder.Entity<Ep>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__EPS__3214EC074463598B");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("EPS");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
         });
 
-        modelBuilder.Entity<FilesRecord>(entity =>
+        modelBuilder.Entity<FileRecord>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__FileReco__3214EC07069133E0");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.Property(e => e.ContentType)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.ToTable("FileRecord");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.ContentType).HasColumnType("int(11)");
+            entity.Property(e => e.File).HasColumnType("blob");
             entity.Property(e => e.Guid)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.IdentificadorEmpleado)
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
             entity.Property(e => e.Ruta)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
         });
 
         modelBuilder.Entity<FondosPensione>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__FondosPe__3214EC077BCC50F2");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
         });
 
         modelBuilder.Entity<Servicio>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Servicio__3214EC079842094C");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.Property(e => e.Cecoid).HasColumnName("CECOId");
+            entity.HasIndex(e => e.Cecoid, "CECOId");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.Cecoid)
+                .HasColumnType("int(11)")
+                .HasColumnName("CECOId");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
 
             entity.HasOne(d => d.Ceco).WithMany(p => p.Servicios)
                 .HasForeignKey(d => d.Cecoid)
@@ -203,11 +243,12 @@ public partial class TalentSphereAdminContext : DbContext
 
         modelBuilder.Entity<TiposContrato>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TiposCon__3214EC07C610DC5C");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(255);
         });
 
         OnModelCreatingPartial(modelBuilder);

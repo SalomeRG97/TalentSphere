@@ -18,24 +18,24 @@ namespace Admin.Api.Controllers
             _empleadoservice = empleadoservice;
         }
 
-        //[HttpGet("GetAll")]
-        //public async Task<IActionResult> Get()
-        //{
-        //    var dto = await _empleadoservice.GetAll();
-        //    return Ok(new { Result = dto });
-        //}
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> Get()
+        {
+            var dto = await _empleadoservice.GetAll();
+            return Ok(new { Result = dto });
+        }
         [HttpPost("Create")]
         public async Task<IActionResult> Add(RequestCreateEmpleado dto)
         {
-            await _empleadoservice.Add(dto);
+            await _empleadoservice.CreateEmpleado(dto);
             return Ok();
         }
-        //[HttpPut("Update")]
-        //public async Task<IActionResult> Put(ArlDTO dto)
-        //{
-        //    await _empleadoservice.Update(dto);
-        //    return Ok();
-        //}
+        [HttpPut("Update")]
+        public async Task<IActionResult> Put(RequestCreateEmpleado dto)
+        {
+            await _empleadoservice.UpdateEmpleado(dto);
+            return Ok();
+        }
         //[HttpDelete("Delete/{id}")]
         //public async Task<IActionResult> Delete(ArlDTO dto)
         //{

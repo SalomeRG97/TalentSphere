@@ -3,6 +3,9 @@ using Admin.DTO;
 using Admin.Interfaces.Base;
 using Admin.Interfaces.Service.Master;
 using Admin.Entities.Models;
+using Admin.Interfaces.Utilities;
+using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Admin.Services.Master;
 
@@ -10,11 +13,13 @@ public class FilesRecordService : IFilesRecordService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IManejadorArchivosLocal _manejadorArchivosLocal;
 
-    public FilesRecordService(IMapper mapper, IUnitOfWork unitOfWork)
+    public FilesRecordService(IMapper mapper, IUnitOfWork unitOfWork, IManejadorArchivosLocal manejadorArchivosLocal)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;
+        _manejadorArchivosLocal = manejadorArchivosLocal;
     }
 
     public async Task<List<FilesRecordDTO>> GetAll()
@@ -22,37 +27,50 @@ public class FilesRecordService : IFilesRecordService
         var data = await _unitOfWork.FilesRecordRepository.GetAllAsync();
         return _mapper.Map<List<FilesRecordDTO>>(data);
     }
-    public async Task Add(FilesRecordCreateDTO dto)
+    public async Task UploadFileEmpleado(FilesRecordDTO dto, byte[] file)
     {
-        var data = await _unitOfWork.FilesRecordRepository.GetOne(x => x.Nombre == dto.Nombre);
-        if (data != null)
+        using (var transaction = _unitOfWork.BeginTransaction())
         {
-            return;
+            try
+            {
+                var existingFile = await _unitOfWork.FilesRecordRepository.GetOne(x => x.IdentificadorEmpleado == dto.IdentificadorEmpleado && x.ContentType == dto.ContentType);
+
+                var newEntity = _mapper.Map<FileRecord>(dto);
+                await _unitOfWork.FilesRecordRepository.AddAsync(newEntity);
+                await _unitOfWork.Commit();
+
+                var dataC = await _unitOfWork.ContratoLaboralRepository.GetByDocument(dto.IdentificadorEmpleado);
+                if (dataC == null)
+                {
+                    return;
+                }
+                if (dto.ContentType == 1)
+                {
+                    dataC.HojaVidaRef = dto.Nombre;
+                }
+                else
+                {
+                    dataC.SoportesRef = dto.Nombre;
+                }
+
+                var contrato = _mapper.Map<ContratosLaborale>(dataC);
+                await _unitOfWork.ContratoLaboralRepository.UpdateAsync(contrato);
+                await _unitOfWork.Commit();
+                await _manejadorArchivosLocal.GuardarEnRuta(dto.Ruta, file);
+
+                if (existingFile != null)
+                {
+                    _unitOfWork.FilesRecordRepository.DeleteAsync(existingFile);
+                    await _unitOfWork.Commit();
+                    _manejadorArchivosLocal.DeleteFile(existingFile.Ruta);
+                }
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
         }
-        var entity = _mapper.Map<FilesRecord>(dto);
-        _unitOfWork.FilesRecordRepository.AddAsync(entity);
-        await _unitOfWork.Commit();
-    }
-    public async Task Update(FilesRecordDTO dto)
-    {
-        var data = await _unitOfWork.FilesRecordRepository.GetOne(x => x.Id == dto.Id);
-        if (data == null)
-        {
-            return;
-        }
-        var entity = _mapper.Map(dto, data);
-        _unitOfWork.FilesRecordRepository.UpdateAsync(entity);
-        await _unitOfWork.Commit();
-    }
-    public async Task Delete(FilesRecordDTO dto)
-    {
-        var data = await _unitOfWork.FilesRecordRepository.GetOne(x => x.Id == dto.Id);
-        if (data == null)
-        {
-            return;
-        }
-        var entity = _mapper.Map<FilesRecord>(dto);
-        _unitOfWork.FilesRecordRepository.DeleteAsync(entity);
-        await _unitOfWork.Commit();
     }
 }

@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Admin.DTO;
 using Admin.DTO.Utilities;
 using Admin.Interfaces.Utilities;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace Utilidades
@@ -9,12 +10,17 @@ namespace Utilidades
     {
         private readonly HttpClient _httpClient;
 
-        protected HttpBase(HttpClient httpClient)
+        public HttpBase(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
-
-        public async Task<BaseResponse<R>> Get<R>(string uri)
+        /// <summary>
+        /// LLamda Get a un servicio
+        /// </summary>
+        /// <typeparam name="R">Tipo de parametro de salida</typeparam>
+        /// <param name="uri">URL</param>
+        /// <returns></returns>
+        public async Task<R> Get<R>(string uri)
         {
 
             var response = await _httpClient.GetAsync(uri);
@@ -22,7 +28,7 @@ namespace Utilidades
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseStream = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<BaseResponse<R>>(responseStream);
+                return JsonConvert.DeserializeObject<R>(responseStream);
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
@@ -35,7 +41,15 @@ namespace Utilidades
 
         }
 
-        public async Task<BaseResponse<R>> Post<R, S>(string uri, S Element)
+        /// <summary>
+        /// Llamada post
+        /// </summary>
+        /// <typeparam name="S">Tipo de dato enviado</typeparam>
+        /// <typeparam name="R">Tipo de dato devuelto</typeparam>
+        /// <param name="uri">url ws</param>
+        /// <param name="Element">Elemento del tipo enviado enviado</param>
+        /// <returns></returns>
+        public async Task<R> Post<R, S>(string uri, S Element)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(Element), Encoding.UTF8, "application/json");
 
@@ -44,7 +58,7 @@ namespace Utilidades
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseStream = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<BaseResponse<R>>(responseStream);
+                return JsonConvert.DeserializeObject<R>(responseStream);
             }
             else
             {
@@ -54,7 +68,15 @@ namespace Utilidades
 
         }
 
-        public async Task<BaseResponse<R>> Put<R, S>(string uri, S Element)
+        /// <summary>
+        /// Llamada post
+        /// </summary>
+        /// <typeparam name="S">Tipo de dato enviado</typeparam>
+        /// <typeparam name="R">Tipo de dato devuelto</typeparam>
+        /// <param name="uri">url ws</param>
+        /// <param name="Element">Elemento del tipo enviado enviado</param>
+        /// <returns></returns>
+        public async Task<R> Put<R, S>(string uri, S Element)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(Element), Encoding.UTF8, "application/json");
 
@@ -65,21 +87,28 @@ namespace Utilidades
             {
                 var responseStream = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject
-                    <BaseResponse<R>>(responseStream);
+                    <R>(responseStream);
             }
             else { throw new Exception($"Error to get the query"); }
 
         }
 
-        public async Task<BaseResponse<R>> Delete<R>(string uri)
+        /// <summary>
+        /// LLamda Delete a un servicio
+        /// </summary>
+        /// <typeparam name="R">Tipo de parametro de salida</typeparam>
+        /// <param name="uri">URL</param>
+        /// <returns></returns>
+        public async Task<R> Delete<R>(string uri)
         {
             var response = await _httpClient.DeleteAsync(uri);
 
+            //response.EnsureSuccessStatusCode();
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseStream = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject
-                    <BaseResponse<R>>(responseStream);
+                    <R>(responseStream);
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {

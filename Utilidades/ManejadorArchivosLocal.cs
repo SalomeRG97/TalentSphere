@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Admin.Interfaces.Utilities;
 using Admin.DTO;
+using Microsoft.AspNetCore.Http;
 
 namespace Utilidades
 {
@@ -12,8 +13,7 @@ namespace Utilidades
         {
             _carpetaBase = environment.WebRootPath;
         }
-
-        public async Task<FilesRecordCreateDTO> GuardarArchivo(byte[] contenido, string nombreArchivo, string contentType, string bucket)
+        public async Task<FilesRecordDTO> GuardarArchivo(string nombreArchivo, string bucket, string IdentificadorEmpleado, int ContentType)
         {
             var carpetaDestino = Path.Combine(_carpetaBase, bucket);
 
@@ -27,19 +27,21 @@ namespace Utilidades
             var nombreArchivoConGuid = guid + extension;
             var rutaArchivo = Path.Combine(carpetaDestino, nombreArchivoConGuid);
 
-            await File.WriteAllBytesAsync(rutaArchivo, contenido);
-
-            var fileRecord = new FilesRecordCreateDTO
+            var fileRecord = new FilesRecordDTO
             {
+                IdentificadorEmpleado = IdentificadorEmpleado,
                 Nombre = nombreArchivoConGuid,
-                ContentType = contentType,
-                Ruta = bucket,
+                ContentType = ContentType,
+                Ruta = rutaArchivo,
                 Guid = guid
             };
 
             return fileRecord;
         }
-
+        public async Task GuardarEnRuta(string rutaArchivo, byte[] contenido)
+        {
+            await File.WriteAllBytesAsync(rutaArchivo, contenido);
+        }
 
         public async Task<byte[]> ObtenerArchivo(string bucket, string nombreArchivo)
         {
@@ -57,5 +59,24 @@ namespace Utilidades
             var carpeta = Path.Combine(_carpetaBase, bucket);
             return Path.Combine(carpeta, nombreArhivo);
         }
+        public void DeleteFile(string rutaArchivoCompleta)
+        {
+            try
+            {
+                if (System.IO.File.Exists(rutaArchivoCompleta))
+                {
+                    System.IO.File.Delete(rutaArchivoCompleta);
+                }
+                else
+                {
+                    throw new FileNotFoundException($"El archivo no existe en la ruta especificada: {rutaArchivoCompleta}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al eliminar el archivo '{rutaArchivoCompleta}': {ex.Message}");
+            }
+        }
+
     }
 }

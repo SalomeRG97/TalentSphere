@@ -8,6 +8,8 @@ using Admin.Repositories.Repositories;
 using Admin.Services.Master;
 using Admin.Interfaces.Service.Master;
 using Utilidades;
+using Utilidades.ApiAuth;
+using Admin.Interfaces.Utilities.ApiAuth;
 
 namespace IoC.Admin
 {
@@ -22,7 +24,7 @@ namespace IoC.Admin
             builder.Services.AddScoped<ICecoRepository, CecoRepository>();
             builder.Services.AddScoped<IEpsRepository, EpsRepository>();
             builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
-            builder.Services.AddScoped<IFondoPensionRepository, FondoPensionRepository > ();
+            builder.Services.AddScoped<IFondoPensionRepository, FondoPensionRepository>();
             builder.Services.AddScoped<ITipoContratoRepository, TipoContratoRepository>();
             builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
             builder.Services.AddScoped<IContratoLaboralRepository, ContratoLaboralRepository>();
@@ -39,6 +41,12 @@ namespace IoC.Admin
             builder.Services.AddScoped<ITipoContratoService, TipoContratoService>();
             builder.Services.AddScoped<IFilesRecordService, FilesRecordService>();
             builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
+            builder.Services.AddScoped<IHttpBase, HttpBase>();
+            builder.Services.AddHttpClient<IApiAuthService, ApiAuthService>(service =>
+            {
+                service.BaseAddress = new Uri(builder.Configuration.GetSection("ApiAuth").Value);
+            });
+
         }
         public static void UtilidadesService(WebApplicationBuilder builder)
         {

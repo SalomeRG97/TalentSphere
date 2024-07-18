@@ -4,7 +4,7 @@ using Admin.Interfaces.Repositories;
 
 namespace Admin.Repositories.Repositories
 {
-    public class FilesRecordRepository : Repository<FilesRecord>, IFilesRecordRepository
+    public class FilesRecordRepository : Repository<FileRecord>, IFilesRecordRepository
     {
         public FilesRecordRepository(TalentSphereAdminContext context) : base(context)
         {

@@ -27,21 +27,21 @@ public partial class ContratosLaborale
 
     public DateTime? FechaSalida { get; set; }
 
-    public string? HojaVidaRef { get; set; }
+    public string HojaVidaRef { get; set; }
 
-    public string? SoportesRef { get; set; }
+    public string SoportesRef { get; set; }
 
-    public virtual Arl Arl { get; set; } = null!;
+    public virtual Arl Arl { get; set; }
 
-    public virtual Cargo Cargo { get; set; } = null!;
+    public virtual Cargo Cargo { get; set; }
 
-    public virtual Empleado Empleado { get; set; } = null!;
+    public virtual Empleado Empleado { get; set; }
 
-    public virtual Ep Eps { get; set; } = null!;
+    public virtual Ep Eps { get; set; }
 
-    public virtual FondosPensione FondoPension { get; set; } = null!;
+    public virtual FondosPensione FondoPension { get; set; }
 
-    public virtual Servicio Servicio { get; set; } = null!;
+    public virtual Servicio Servicio { get; set; }
 
-    public virtual TiposContrato TipoContrato { get; set; } = null!;
+    public virtual TiposContrato TipoContrato { get; set; }
 }

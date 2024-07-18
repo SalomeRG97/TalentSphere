@@ -2,6 +2,8 @@
 using Admin.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Admin.Interfaces.Utilities;
+using Microsoft.JSInterop;
+using Utilidades;
 
 namespace Admin.Api.Controllers
 {
@@ -12,7 +14,7 @@ namespace Admin.Api.Controllers
         private readonly IFilesRecordService _filesRecordService;
         private readonly IManejadorArchivosLocal _manejadorArchivosLocal;
 
-        public FilesRecordController(IManejadorArchivosLocal manejadorArchivosLocal, IFilesRecordService filesRecordService)
+        public FilesRecordController(IFilesRecordService filesRecordService, IManejadorArchivosLocal manejadorArchivosLocal)
         {
             _filesRecordService = filesRecordService;
             _manejadorArchivosLocal = manejadorArchivosLocal;
@@ -24,33 +26,40 @@ namespace Admin.Api.Controllers
         //    return Ok(new { Result = dto });
         //}
         [HttpPost("Upload")]
-        public async Task<IActionResult> Add(IFormFile file)
+        public async Task<IActionResult> Upload(string IdentificadorEmpleado, int ContentType, IFormFile file)
         {
-            if (file == null || file.Length == 0)
+            try
             {
-                return BadRequest("No se ha proporcionado un archivo válido.");
+                if (file == null || file.Length == 0)
+                {
+                    throw new ClienteException("Error: El archivo es incorrecto.");
+                }
+                using var ms = new MemoryStream();
+                await file.CopyToAsync(ms);
+                var content = ms.ToArray();
+
+                var dto = await _manejadorArchivosLocal.GuardarArchivo(file.FileName, "documentos", IdentificadorEmpleado, ContentType);
+                await _filesRecordService.UploadFileEmpleado(dto, content);
+                return Ok("El proceso salio bien");
             }
-
-            using var ms = new MemoryStream();
-            await file.CopyToAsync(ms);
-            var content = ms.ToArray();
-
-            var dto = await _manejadorArchivosLocal.GuardarArchivo(content, file.FileName, file.ContentType, "documentos");
-
-            await _filesRecordService.Add(dto);
-            return Ok();
+            catch (ClienteException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Se ha producido un error, intente nuevamente");
+            }
         }
-        //[HttpPut("Update")]
-        //public async Task<IActionResult> Put(ArlDTO dto)
-        //{
-        //    await _filesRecordService.Update(dto);
-        //    return Ok();
-        //}
-        //[HttpDelete("Delete/{id}")]
-        //public async Task<IActionResult> Delete(ArlDTO dto)
-        //{
-        //    await _filesRecordService.Delete(dto);
-        //    return Ok();
-        //}
+
+    }
+
+    public class ClienteException : Exception
+    {
+        public ClienteException() { }
+
+        public ClienteException(string message)
+            : base(message) { }
+
     }
 }

@@ -11,6 +11,10 @@
     <ProjectReference Include="..\Admin.Interfaces\Admin.Interfaces.csproj" />
     <ProjectReference Include="..\Admin.Repositories\Admin.Repositories.csproj" />
     <ProjectReference Include="..\Admin.Services\Admin.Services.csproj" />
+    <ProjectReference Include="..\Auth.DTO\Auth.DTO.csproj" />
+    <ProjectReference Include="..\Auth.Interfaces\Auth.Interfaces.csproj" />
+    <ProjectReference Include="..\Auth.Repository\Auth.Repositories.csproj" />
+    <ProjectReference Include="..\Auth.Services\Auth.Services.csproj" />
     <ProjectReference Include="..\Configurations\Configuraciones.csproj" />
     <ProjectReference Include="..\Utilidades\Utilidades.csproj" />
   </ItemGroup>

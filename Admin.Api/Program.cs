@@ -16,7 +16,7 @@ Admin_BussinessLogicIoC.UtilidadesService(builder);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

@@ -5,9 +5,9 @@ namespace Admin.Interfaces.Service.Master
 {
     public interface IEmpleadoService
     {
-        Task Add(RequestCreateEmpleado request);
+        Task CreateEmpleado(RequestCreateEmpleado request);
         Task Delete(EmpleadoDTO dto);
-        Task<List<EmpleadoDTO>> GetAll();
-        Task Update(EmpleadoDTO dto);
+        Task<List<RequestCreateEmpleado>> GetAll();
+        Task UpdateEmpleado(RequestCreateEmpleado request);
     }
 }
