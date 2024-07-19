@@ -17,7 +17,6 @@ namespace IoC.Admin
     {
         public static void RepositoryService(WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IArlRepository, ArlRepository>();
             builder.Services.AddScoped<ICargoRepository, CargoRepository>();
@@ -47,10 +46,6 @@ namespace IoC.Admin
                 service.BaseAddress = new Uri(builder.Configuration.GetSection("ApiAuth").Value);
             });
 
-        }
-        public static void UtilidadesService(WebApplicationBuilder builder)
-        {
-            builder.Services.AddScoped<IManejadorArchivosLocal, ManejadorArchivosLocal>();
         }
     }
 }

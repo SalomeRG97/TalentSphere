@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Auth.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
 using Auth.Interfaces.Services;
-using Admin.DTO;
-using Admin.DTO.ServiceCall;
+using DTO.ServiceCall;
 
 namespace Auth.Api.Controllers
 {

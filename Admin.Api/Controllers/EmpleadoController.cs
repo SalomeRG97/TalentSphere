@@ -1,5 +1,4 @@
-﻿using Admin.DTO;
-using Admin.DTO.Maestros;
+﻿using Admin.DTO.Maestros;
 using Admin.Interfaces.Service.Master;
 using Microsoft.AspNetCore.Mvc;
 

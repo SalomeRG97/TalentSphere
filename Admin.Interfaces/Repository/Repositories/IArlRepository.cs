@@ -1,6 +1,5 @@
 ﻿using Admin.Entities.Models;
-using Admin.Interfaces.Base;
-
+using Admin.Interfaces.Repositories.Base;
 
 namespace Admin.Interfaces.Repositories
 {

@@ -10,6 +10,8 @@
     <ProjectReference Include="..\Admin.DTO\Admin.DTO.csproj" />
     <ProjectReference Include="..\Admin.Interfaces\Admin.Interfaces.csproj" />
     <ProjectReference Include="..\Configurations\Configuraciones.csproj" />
+    <ProjectReference Include="..\DTO\DTO.csproj" />
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj" />
     <ProjectReference Include="..\IoC\IoC.csproj" />
   </ItemGroup>
 

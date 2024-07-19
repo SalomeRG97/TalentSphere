@@ -1,5 +1,5 @@
 ﻿
-namespace Admin.DTO.Utilities
+namespace DTO.Utilities
 {
     public class DatosEnvioCorreoDTO
     {

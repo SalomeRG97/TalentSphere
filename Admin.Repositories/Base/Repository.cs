@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Admin.Entities.Models;
-using Admin.Interfaces.Base;
+using Admin.Interfaces.Repositories.Base;
 using System.Linq.Expressions;
 
 namespace Admin.Repositories.Base
 {
     public class Repository<T> : IRepository<T> where T : class
-        //public class Repository<T> : IRepository<T> where T : class
     {
         private readonly TalentSphereAdminContext _context;
         private readonly DbSet<T> _dbSet;

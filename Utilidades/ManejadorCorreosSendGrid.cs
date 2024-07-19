@@ -1,5 +1,5 @@
-﻿using Admin.DTO.Utilities;
-using Admin.Interfaces.Utilities;
+﻿using DTO.Utilities;
+using Interfaces.Utilities;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 

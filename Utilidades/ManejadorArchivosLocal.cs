@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Admin.Interfaces.Utilities;
+using Interfaces.Utilities;
 using Admin.DTO;
 using Microsoft.AspNetCore.Http;
 

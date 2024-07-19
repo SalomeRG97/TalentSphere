@@ -1,4 +1,5 @@
-﻿namespace Admin.Interfaces.Utilities
+﻿
+namespace Utilidades
 {
     public interface IHttpBase
     {

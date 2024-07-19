@@ -1,9 +1,10 @@
 ﻿using Auth.DTO;
-using Admin.DTO.ServiceCall;
+using DTO.ServiceCall;
 using Auth.Entities.Models;
 using Auth.Interfaces.Repositories.Base;
 using Auth.Interfaces.Services;
 using AutoMapper;
+using Exceptions;
 
 namespace Auth.Services
 {
@@ -25,23 +26,35 @@ namespace Auth.Services
         }
         public async Task Add(RequestActivarEmpleado dto)
         {
-            var user = new UsuarioDTO
+            try
             {
-                NumeroDocumento = dto.NumeroDocumento,
-                Correo = dto.CorreoEmpresarial,
-                Contrasenna = "dfsdfsdf",
-                Role = dto.CargoId,
-                CodigoValidacion = "65365",
-                ExpiracionCodigo = DateTime.Now
-            };
-            var data = await _unitOfWork.UsuarioRepository.GetOne(x => x.NumeroDocumento == user.NumeroDocumento);
-            if (data != null)
-            {
-                return;
+                var user = new UsuarioDTO
+                {
+                    NumeroDocumento = dto.NumeroDocumento,
+                    Correo = dto.CorreoEmpresarial,
+                    Contrasenna = "dfsdfsdf",
+                    Role = dto.CargoId,
+                    CodigoValidacion = "65365",
+                    ExpiracionCodigo = DateTime.Now
+                };
+                var data = await _unitOfWork.UsuarioRepository.GetOne(x => x.NumeroDocumento == user.NumeroDocumento);
+                if (data != null)
+                {
+                    throw new BadRequestException("Ya existe un usuario con el número de documento especificado.");
+                }
+                var entity = _mapper.Map<Usuario>(user);
+                await _unitOfWork.UsuarioRepository.AddAsync(entity);
+                await _unitOfWork.Commit();
             }
-            var entity = _mapper.Map<Usuario>(user);
-            await _unitOfWork.UsuarioRepository.AddAsync(entity);
-            await _unitOfWork.Commit();
+            catch (BadRequestException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new InternalServerErrorException("Ha ocurrido un error inesperado, intente de nuevo más tarde. Si el error persiste, contacte con soporte.");
+            }
+
         }
         //public async Task Update(ArlDTO dto)
         //{
