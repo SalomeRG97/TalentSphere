@@ -1,6 +1,6 @@
 ﻿using Admin.DTO;
 
-namespace Admin.Interfaces.Utilities
+namespace Interfaces.Utilities
 {
     public interface IManejadorArchivosLocal
     {

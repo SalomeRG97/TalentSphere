@@ -9,10 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Admin.DTO\Admin.DTO.csproj" />
     <ProjectReference Include="..\Admin.Entities\Admin.Entities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ServiceCall\" />
+    <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 
 </Project>

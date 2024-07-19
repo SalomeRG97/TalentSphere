@@ -1,4 +1,4 @@
-﻿using Admin.DTO.ServiceCall;
+﻿using DTO.ServiceCall;
 using Admin.Interfaces.Utilities.ApiAuth;
 
 namespace Utilidades.ApiAuth

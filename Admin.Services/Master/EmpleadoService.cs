@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
-using Admin.DTO;
+using DTO.ServiceCall;
 using Admin.Interfaces.Base;
 using Admin.Interfaces.Service.Master;
 using Admin.Entities.Models;
 using Admin.DTO.Maestros;
-using System;
-using Mysqlx;
-using System.Diagnostics;
-using Org.BouncyCastle.Asn1.Ocsp;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using ZstdSharp;
-using Admin.DTO.ServiceCall;
 using Admin.Interfaces.Utilities.ApiAuth;
+using Exceptions;
 
 namespace Admin.Services.Master
 {
@@ -62,7 +56,7 @@ namespace Admin.Services.Master
                     var data = await _unitOfWork.EmpleadoRepository.GetOne(x => x.NumeroDocumento == request.Empleado.NumeroDocumento);
                     if (data != null)
                     {
-                        return;
+                        throw new BadRequestException("Ya existe un empleado con el número de documento especificado.");
                     }
                     var empleado = _mapper.Map<Empleado>(request.Empleado);
                     empleado.Guid = Guid.NewGuid().ToString();
@@ -88,9 +82,15 @@ namespace Admin.Services.Master
 
                     transaction.Commit();
                 }
+                catch (BadRequestException ex)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
                 catch (Exception)
                 {
                     transaction.Rollback();
+                    throw new InternalServerErrorException("Ha ocurrido un error inesperado, intente de nuevo mas tarde, si el error persiste contacte con soporte.");
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace Admin.Services.Master
                     var dataE = await _unitOfWork.EmpleadoRepository.GetOne(x => x.NumeroDocumento == request.Empleado.NumeroDocumento);
                     if (dataE == null)
                     {
-                        return;
+                        throw new BadRequestException("No existe un empleado con el número de documento especificado.");
                     }
                     var empleado = _mapper.Map(request.Empleado, dataE);
                     empleado.ModifiedBy = "Salome Ruiz Gallego";
@@ -131,9 +131,15 @@ namespace Admin.Services.Master
 
                     transaction.Commit();
                 }
+                catch (BadRequestException ex)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
                 catch (Exception)
                 {
                     transaction.Rollback();
+                    throw new InternalServerErrorException("Ha ocurrido un error inesperado, intente de nuevo mas tarde, si el error persiste contacte con soporte.");
                 }
             }
         }
@@ -142,7 +148,7 @@ namespace Admin.Services.Master
             var data = await _unitOfWork.EmpleadoRepository.GetOne(x => x.Id == dto.Id);
             if (data == null)
             {
-                return;
+                throw new BadRequestException("No existe un empleado con el número de documento especificado.");
             }
             var entity = _mapper.Map<Empleado>(dto);
             _unitOfWork.EmpleadoRepository.DeleteAsync(entity);

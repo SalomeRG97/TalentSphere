@@ -1,5 +1,5 @@
 ﻿using Auth.DTO;
-using Admin.DTO.ServiceCall;
+using DTO.ServiceCall;
 
 namespace Auth.Interfaces.Services
 {

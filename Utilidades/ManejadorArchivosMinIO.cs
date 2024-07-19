@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Admin.DTO;
-using Admin.Interfaces.Utilities;
+using Interfaces.Utilities;
 using Minio;
 using Minio.Exceptions;
 using System.Threading.Tasks;

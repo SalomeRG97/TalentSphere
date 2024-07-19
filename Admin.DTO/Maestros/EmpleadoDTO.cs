@@ -1,4 +1,4 @@
-﻿namespace Admin.DTO
+﻿namespace Admin.DTO.Maestros
 {
     public class EmpleadoDTO
     {

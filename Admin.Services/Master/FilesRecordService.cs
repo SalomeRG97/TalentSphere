@@ -3,9 +3,8 @@ using Admin.DTO;
 using Admin.Interfaces.Base;
 using Admin.Interfaces.Service.Master;
 using Admin.Entities.Models;
-using Admin.Interfaces.Utilities;
-using Microsoft.AspNetCore.Http;
-using Org.BouncyCastle.Asn1.Ocsp;
+using Interfaces.Utilities;
+using Exceptions;
 
 namespace Admin.Services.Master;
 
@@ -33,8 +32,6 @@ public class FilesRecordService : IFilesRecordService
         {
             try
             {
-                var existingFile = await _unitOfWork.FilesRecordRepository.GetOne(x => x.IdentificadorEmpleado == dto.IdentificadorEmpleado && x.ContentType == dto.ContentType);
-
                 var newEntity = _mapper.Map<FileRecord>(dto);
                 await _unitOfWork.FilesRecordRepository.AddAsync(newEntity);
                 await _unitOfWork.Commit();
@@ -42,7 +39,7 @@ public class FilesRecordService : IFilesRecordService
                 var dataC = await _unitOfWork.ContratoLaboralRepository.GetByDocument(dto.IdentificadorEmpleado);
                 if (dataC == null)
                 {
-                    return;
+                    throw new BadRequestException("No existe un empleado con el número de identificación especificado.");
                 }
                 if (dto.ContentType == 1)
                 {
@@ -58,6 +55,8 @@ public class FilesRecordService : IFilesRecordService
                 await _unitOfWork.Commit();
                 await _manejadorArchivosLocal.GuardarEnRuta(dto.Ruta, file);
 
+                var existingFile = await _unitOfWork.FilesRecordRepository.GetOne(x => x.IdentificadorEmpleado == dto.IdentificadorEmpleado && x.ContentType == dto.ContentType);
+
                 if (existingFile != null)
                 {
                     _unitOfWork.FilesRecordRepository.DeleteAsync(existingFile);
@@ -67,9 +66,15 @@ public class FilesRecordService : IFilesRecordService
 
                 transaction.Commit();
             }
+            catch (BadRequestException ex)
+            {
+                transaction.Rollback();
+                throw ex;
+            }
             catch (Exception)
             {
                 transaction.Rollback();
+                throw new InternalServerErrorException("Ha ocurrido un error inesperado, intente de nuevo mas tarde, si el error persiste contacte con soporte.");
             }
         }
     }

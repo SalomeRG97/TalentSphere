@@ -1,9 +1,10 @@
 ﻿using Admin.Interfaces.Service.Master;
 using Admin.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Admin.Interfaces.Utilities;
+using Interfaces.Utilities;
 using Microsoft.JSInterop;
 using Utilidades;
+using Exceptions;
 
 namespace Admin.Api.Controllers
 {
@@ -28,38 +29,18 @@ namespace Admin.Api.Controllers
         [HttpPost("Upload")]
         public async Task<IActionResult> Upload(string IdentificadorEmpleado, int ContentType, IFormFile file)
         {
-            try
+            if (file == null || file.Length == 0)
             {
-                if (file == null || file.Length == 0)
-                {
-                    throw new ClienteException("Error: El archivo es incorrecto.");
-                }
-                using var ms = new MemoryStream();
-                await file.CopyToAsync(ms);
-                var content = ms.ToArray();
+                throw new BadRequestException("Error: El archivo es incorrecto.");
+            }
+            using var ms = new MemoryStream();
+            await file.CopyToAsync(ms);
+            var content = ms.ToArray();
 
-                var dto = await _manejadorArchivosLocal.GuardarArchivo(file.FileName, "documentos", IdentificadorEmpleado, ContentType);
-                await _filesRecordService.UploadFileEmpleado(dto, content);
-                return Ok("El proceso salio bien");
-            }
-            catch (ClienteException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Se ha producido un error, intente nuevamente");
-            }
+            var dto = await _manejadorArchivosLocal.GuardarArchivo(file.FileName, "documentos", IdentificadorEmpleado, ContentType);
+            await _filesRecordService.UploadFileEmpleado(dto, content);
+            return Ok("El proceso salio bien");
         }
-
-    }
-
-    public class ClienteException : Exception
-    {
-        public ClienteException() { }
-
-        public ClienteException(string message)
-            : base(message) { }
 
     }
 }

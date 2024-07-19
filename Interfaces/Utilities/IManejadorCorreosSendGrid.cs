@@ -1,6 +1,6 @@
-﻿using Admin.DTO.Utilities;
+﻿using DTO.Utilities;
 
-namespace Admin.Interfaces.Utilities
+namespace Interfaces.Utilities
 {
     public interface IManejadorCorreosSendGrid
     {

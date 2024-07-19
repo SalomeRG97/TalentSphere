@@ -1,5 +1,5 @@
 ﻿using Admin.DTO;
-using Admin.DTO.Utilities;
+using DTO.Utilities;
 using Admin.Interfaces.Utilities;
 using Newtonsoft.Json;
 using System.Text;

@@ -1,4 +1,4 @@
-﻿namespace Admin.DTO.ServiceCall
+﻿namespace DTO.ServiceCall
 {
     public class RequestDesactivarEmpleado
     {

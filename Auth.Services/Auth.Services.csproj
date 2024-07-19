@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Admin.DTO\Admin.DTO.csproj" />
     <ProjectReference Include="..\Auth.DTO\Auth.DTO.csproj" />
     <ProjectReference Include="..\Auth.Interfaces\Auth.Interfaces.csproj" />
+    <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 
 </Project>

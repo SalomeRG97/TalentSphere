@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Admin.DTO\Admin.DTO.csproj" />
     <ProjectReference Include="..\Auth.DTO\Auth.DTO.csproj" />
-    <ProjectReference Include="..\Auth.Entities\Auth.Entities.csproj" />
     <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 

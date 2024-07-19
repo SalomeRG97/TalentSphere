@@ -1,5 +1,5 @@
 ﻿using Auth.DTO;
-using Admin.DTO.ServiceCall;
+using DTO.ServiceCall;
 using Auth.Entities.Models;
 using Auth.Interfaces.Repositories.Base;
 using Auth.Interfaces.Services;
