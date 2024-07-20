@@ -5,6 +5,7 @@ using Auth.Interfaces.Repositories.Base;
 using Auth.Interfaces.Services;
 using AutoMapper;
 using Exceptions;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Auth.Services
 {
@@ -35,7 +36,8 @@ namespace Auth.Services
                     Contrasenna = "dfsdfsdf",
                     Role = dto.CargoId,
                     CodigoValidacion = "65365",
-                    ExpiracionCodigo = DateTime.Now
+                    ExpiracionCodigo = DateTime.Now,
+                    Status = true
                 };
                 var data = await _unitOfWork.UsuarioRepository.GetOne(x => x.NumeroDocumento == user.NumeroDocumento);
                 if (data != null)
@@ -56,27 +58,29 @@ namespace Auth.Services
             }
 
         }
-        //public async Task Update(ArlDTO dto)
-        //{
-        //    var data = await _unitOfWork.ArlRepository.GetOne(x => x.Id == dto.Id);
-        //    if (data == null)
-        //    {
-        //        return;
-        //    }
-        //    var entity = _mapper.Map(dto, data);
-        //    _unitOfWork.ArlRepository.UpdateAsync(entity);
-        //    await _unitOfWork.Commit();
-        //}
-        //public async Task Delete(ArlDTO dto)
-        //{
-        //    var data = await _unitOfWork.ArlRepository.GetOne(x => x.Id == dto.Id);
-        //    if (data == null)
-        //    {
-        //        return;
-        //    }
-        //    var entity = _mapper.Map<Arl>(dto);
-        //    _unitOfWork.ArlRepository.DeleteAsync(entity);
-        //    await _unitOfWork.Commit();
-        //}
+        public async Task Update(RequestDesactivarEmpleado dto)
+        {
+            try
+            {
+                var user = await _unitOfWork.UsuarioRepository.GetOne(x => x.NumeroDocumento == dto.NumeroDocumento);
+                if (user == null)
+                {
+                    throw new BadRequestException("No existe un usuario con el número de documento especificado.");
+                }
+                user.FechaDesactivacion = dto.FechaDesactivacion;
+                user.Status = false;
+                await _unitOfWork.UsuarioRepository.UpdateAsync(user);
+                await _unitOfWork.Commit();
+            }
+            catch (BadRequestException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new InternalServerErrorException("Ha ocurrido un error inesperado, intente de nuevo más tarde. Si el error persiste, contacte con soporte.");
+            }
+
+        }
     }
 }

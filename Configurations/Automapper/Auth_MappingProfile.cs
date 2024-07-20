@@ -9,6 +9,7 @@ namespace Configuraciones.Automapper
         public Auth_MappingProfile()
         {
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
+
         }
     }
 }

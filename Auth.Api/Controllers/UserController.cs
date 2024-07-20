@@ -25,5 +25,11 @@ namespace Auth.Api.Controllers
             await _usuarioService.Add(dto);
             return Ok();
         }
+        [HttpPut("DarBajaEmpleado")]
+        public async Task<IActionResult> DarBajaEmpleado(RequestDesactivarEmpleado dto)
+        {
+            await _usuarioService.Update(dto);
+            return Ok();
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Utilidades.ApiAuth
         }
         public async Task<bool> DarBajaEmpleado(RequestDesactivarEmpleado request)
         {
-            await Post<RequestDesactivarEmpleado, object>("User/DarBajaEmpleado", request);
+            await Put<RequestDesactivarEmpleado, object>("User/DarBajaEmpleado", request);
             return true;
         }
     }

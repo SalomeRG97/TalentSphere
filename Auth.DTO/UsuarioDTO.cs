@@ -10,5 +10,6 @@
         public string CodigoValidacion { get; set; }
         public DateTime ExpiracionCodigo { get; set; }
         public DateTime FechaDesactivacion { get; set; }
+        public bool Status { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace Auth.Interfaces.Services
     {
         Task Add(RequestActivarEmpleado dto);
         Task<List<UsuarioDTO>> GetAll();
-
+        Task Update(RequestDesactivarEmpleado dto);
     }
 }
