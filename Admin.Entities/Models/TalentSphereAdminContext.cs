@@ -13,6 +13,8 @@ public partial class TalentSphereAdminContext : DbContext
 
     public virtual DbSet<Arl> Arls { get; set; }
 
+    public virtual DbSet<BacklogsEvent> BacklogsEvents { get; set; }
+
     public virtual DbSet<Cargo> Cargos { get; set; }
 
     public virtual DbSet<Ceco> Cecos { get; set; }
@@ -43,6 +45,19 @@ public partial class TalentSphereAdminContext : DbContext
             entity.Property(e => e.Nombre)
                 .IsRequired()
                 .HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<BacklogsEvent>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("BacklogsEvent");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.CompletedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.EventType).HasColumnType("int(11)");
+            entity.Property(e => e.Json).IsRequired();
         });
 
         modelBuilder.Entity<Cargo>(entity =>

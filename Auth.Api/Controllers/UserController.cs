@@ -22,12 +22,14 @@ namespace Auth.Api.Controllers
         [HttpPost("DarAltaEmpleado")]
         public async Task<IActionResult> DarAltaEmpleado(RequestActivarEmpleado dto)
         {
+            Thread.Sleep(2000);
             await _usuarioService.Add(dto);
             return Ok();
         }
         [HttpPut("DarBajaEmpleado")]
         public async Task<IActionResult> DarBajaEmpleado(RequestDesactivarEmpleado dto)
         {
+            Thread.Sleep(2000);
             await _usuarioService.Update(dto);
             return Ok();
         }

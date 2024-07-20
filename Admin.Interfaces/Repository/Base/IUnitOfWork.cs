@@ -15,6 +15,7 @@ namespace Admin.Interfaces.Base
         ITipoContratoRepository TipoContratoRepository { get; }
         IContratoLaboralRepository ContratoLaboralRepository { get; }
         IFilesRecordRepository FilesRecordRepository { get; }
+        IBacklogsEventRepository BacklogsEventRepository { get; }
         IDbContextTransaction BeginTransaction();
         Task Commit();
         void Dispose();

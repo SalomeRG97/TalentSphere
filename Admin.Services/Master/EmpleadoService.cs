@@ -4,8 +4,11 @@ using Admin.Interfaces.Base;
 using Admin.Interfaces.Service.Master;
 using Admin.Entities.Models;
 using Admin.DTO.Maestros;
+using Admin.DTO.Api;
 using Admin.Interfaces.Utilities.ApiAuth;
 using Exceptions;
+using DTO.Jobs;
+using System.Text.Json;
 
 namespace Admin.Services.Master
 {
@@ -78,7 +81,7 @@ namespace Admin.Services.Master
                         CargoId = contrato.CargoId,
                         NumeroDocumento = empleado.NumeroDocumento
                     };
-                    await _apiAuthService.ActivarEmpleado(darAltaEmpleado);
+                    await NotifyRegistration(darAltaEmpleado);
 
                     transaction.Commit();
                 }
@@ -93,6 +96,18 @@ namespace Admin.Services.Master
                     throw new InternalServerErrorException("Ha ocurrido un error inesperado, intente de nuevo mas tarde, si el error persiste contacte con soporte.");
                 }
             }
+        }
+        public async Task NotifyRegistration(RequestActivarEmpleado request)
+        {
+            var backLogsEvent = new BacklogsEventDTO()
+            {
+                CreatedAt = DateTime.Now,
+                EventType = (int)EventsEnum.DarAltaEmpleado,
+                Json = JsonSerializer.Serialize(request)
+            };
+            var eventRequest = _mapper.Map<BacklogsEvent>(backLogsEvent);
+            await _unitOfWork.BacklogsEventRepository.AddAsync(eventRequest);
+            await _unitOfWork.Commit();
         }
         public async Task UpdateEmpleado(RequestCreateEmpleado request)
         {
@@ -126,7 +141,7 @@ namespace Admin.Services.Master
                             NumeroDocumento = empleado.NumeroDocumento,
                             FechaDesactivacion = DateTime.Now
                         };
-                        await _apiAuthService.DarBajaEmpleado(darBajaEmpleado);
+                        await NotifyTerminate(darBajaEmpleado);
                     }
 
                     transaction.Commit();
@@ -142,6 +157,18 @@ namespace Admin.Services.Master
                     throw new InternalServerErrorException("Ha ocurrido un error inesperado, intente de nuevo mas tarde, si el error persiste contacte con soporte.");
                 }
             }
+        }
+        public async Task NotifyTerminate(RequestDesactivarEmpleado request)
+        {
+            var backLogsEvent = new BacklogsEventDTO()
+            {
+                CreatedAt = DateTime.Now,
+                EventType = (int)EventsEnum.DarBajaEmpleado,
+                Json = JsonSerializer.Serialize(request)
+            };
+            var eventRequest = _mapper.Map<BacklogsEvent>(backLogsEvent);
+            await _unitOfWork.BacklogsEventRepository.AddAsync(eventRequest);
+            await _unitOfWork.Commit();
         }
         public async Task Delete(EmpleadoDTO dto)
         {

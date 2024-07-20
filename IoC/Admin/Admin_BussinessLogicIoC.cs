@@ -28,6 +28,7 @@ namespace IoC.Admin
             builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
             builder.Services.AddScoped<IContratoLaboralRepository, ContratoLaboralRepository>();
             builder.Services.AddScoped<IFilesRecordRepository, FilesRecordRepository>();
+            builder.Services.AddScoped<IBacklogsEventRepository, BacklogsEventRepository>();
         }
         public static void ReglasNegocioService(WebApplicationBuilder builder)
         {

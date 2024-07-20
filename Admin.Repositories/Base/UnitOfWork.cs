@@ -20,6 +20,7 @@ namespace Admin.Repositories.Base
         private ITipoContratoRepository _tipoContratoRepository;
         private IContratoLaboralRepository _contratoLaboralRepository;
         private IFilesRecordRepository _filesRecordRepository;
+        private IBacklogsEventRepository _backlogsEventRepository;
         public UnitOfWork(TalentSphereAdminContext context)
         {
             _context = context;
@@ -34,6 +35,7 @@ namespace Admin.Repositories.Base
         public ITipoContratoRepository TipoContratoRepository => _tipoContratoRepository ??= new TipoContratoRepository(_context);
         public IFilesRecordRepository FilesRecordRepository => _filesRecordRepository ??= new FilesRecordRepository(_context);
         public IContratoLaboralRepository ContratoLaboralRepository => _contratoLaboralRepository ??= new ContratoLaboralRepository(_context);
+        public IBacklogsEventRepository BacklogsEventRepository => _backlogsEventRepository ??= new BacklogsEventRepository(_context);
 
         public async Task Commit()
         {

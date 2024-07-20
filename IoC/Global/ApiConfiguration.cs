@@ -6,6 +6,12 @@ using Interfaces.Utilities;
 using Utilidades;
 using Microsoft.Extensions.Hosting;
 using Exceptions.MiddleWare;
+using Hangfire;
+using Microsoft.Extensions.Configuration;
+using Admin.Services.Job;
+using Hangfire.MySql;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using Hangfire.MemoryStorage;
 
 namespace IoC.Global
 {
@@ -15,27 +21,31 @@ namespace IoC.Global
         {
             builder.Services.AddControllers();
             SerilogIoC.ConfigureSeqService(builder);
-            //Repository
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IManejadorArchivosLocal, ManejadorArchivosLocal>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHttpClient();
+            builder.Services.AddHangfire(config =>
+                config.UseMemoryStorage());
+
+            builder.Services.AddHangfireServer();
         }
         public static void ConfigureApp(WebApplication app)
         {
-            app.UseMiddleware<ExceptionMiddleware>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseHangfireDashboard();
+            HangfireJobsConfigurator.ConfigureJobs(app.Services);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthorization();
             app.MapControllers();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.Run();
         }
 
