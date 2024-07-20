@@ -12,6 +12,7 @@ using Admin.Services.Job;
 using Hangfire.MySql;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 using Hangfire.MemoryStorage;
+using FluentValidation.AspNetCore;
 
 namespace IoC.Global
 {
@@ -23,6 +24,7 @@ namespace IoC.Global
             SerilogIoC.ConfigureSeqService(builder);
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IManejadorArchivosLocal, ManejadorArchivosLocal>();
+            builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

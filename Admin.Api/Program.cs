@@ -9,6 +9,7 @@ Admin_AutomapperIoC.ConfigureService(builder);
 Admin_DatabaseIoC.ConfigureMySQLService(builder);
 Admin_BussinessLogicIoC.RepositoryService(builder);
 Admin_BussinessLogicIoC.ReglasNegocioService(builder);
+Admin_BussinessLogicIoC.ValidacionesService(builder);
 ApiConfiguration.ConfigureServices(builder);
 
 var app = builder.Build();

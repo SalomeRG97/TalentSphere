@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Admin.Interfaces.Base;
 using Admin.Interfaces.Repositories;
-using Admin.Interfaces.Utilities;
 using Admin.Repositories.Base;
 using Admin.Repositories.Repositories;
 using Admin.Services.Master;
@@ -10,6 +9,9 @@ using Admin.Interfaces.Service.Master;
 using Utilidades;
 using Utilidades.ApiAuth;
 using Admin.Interfaces.Utilities.ApiAuth;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Admin.Validaciones;
 
 namespace IoC.Admin
 {
@@ -47,6 +49,11 @@ namespace IoC.Admin
                 service.BaseAddress = new Uri(builder.Configuration.GetSection("ApiAuth").Value);
             });
 
+        }
+        public static void ValidacionesService(WebApplicationBuilder builder)
+        {
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateEmpleadoDTOValidation>();
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateContratoLaboralDTOValidation>();
         }
     }
 }

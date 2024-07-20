@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Admin.Interfaces\Admin.Interfaces.csproj" />
     <ProjectReference Include="..\Admin.Repositories\Admin.Repositories.csproj" />
     <ProjectReference Include="..\Admin.Services\Admin.Services.csproj" />
+    <ProjectReference Include="..\Admin.Validaciones\Admin.Validaciones.csproj" />
     <ProjectReference Include="..\Auth.DTO\Auth.DTO.csproj" />
     <ProjectReference Include="..\Auth.Interfaces\Auth.Interfaces.csproj" />
     <ProjectReference Include="..\Auth.Repository\Auth.Repositories.csproj" />
@@ -17,6 +18,9 @@
     <ProjectReference Include="..\Configurations\Configuraciones.csproj" />
     <ProjectReference Include="..\Exceptions\Exceptions.csproj" />
     <ProjectReference Include="..\Utilidades\Utilidades.csproj" />
+	  <PackageReference Include="FluentValidation" Version="11.9.2" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	  <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
   </ItemGroup>
 
 	<ItemGroup>

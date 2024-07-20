@@ -26,12 +26,20 @@ namespace Admin.Api.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Add(RequestCreateEmpleado dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             await _empleadoservice.CreateEmpleado(dto);
             return Ok();
         }
         [HttpPut("Update")]
         public async Task<IActionResult> Put(RequestCreateEmpleado dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             await _empleadoservice.UpdateEmpleado(dto);
             return Ok();
         }
